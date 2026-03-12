@@ -9,7 +9,7 @@ public class User {
     private Integer age;
     private String sex;
 
-    public User(Integer id, String username, String password, String sex, Integer age) {
+    public User(Integer id, String username, String password, Integer age,String sex) {
         this.id = id;
         this.username = username;
         this.password = password;

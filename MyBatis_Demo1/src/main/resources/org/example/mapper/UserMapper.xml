@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.UserMapper">
+
+    <insert id="insertUser">
+        insert into t_user values(null,'admin2','123456',24,'女');
+    </insert>
+
+
+    <!--查询标签需设置resultType或resultMap-->
+    <!--resultType:设置默认的映射关系-->
+    <!--resultMap:设置自定义映射关系-->
+    <select id="getUserById" resultType="User">
+        select * from t_user where id = 2
+    </select>
+
+    <select id="getAllUsers" resultType="user">
+        select * from t_user
+    </select>
+
+    <select id="getUserByName" resultType="User">
+        select * from t_user where username = '${username}'
+    </select>
+
+    <select id="CheckLogin" resultType="User">
+        select * from t_user where username = #{param1} and password = #{param2}
+    </select>
+
+    <select id="CheckLoginByMap" resultType="User">
+        select * from t_user where username = #{username} and password = #{password}
+    </select>
+
+    <select id="CheckLoginByUser" resultType="User">
+        select * from t_user where id = #{id} and username = #{username} and password = #{password}
+    </select>
+
+    <select id="CheckLoginById" resultType="User">
+        select * from t_user where id = #{ID}
+    </select>
+
+    <select id="getUserBySex" resultType="User">
+        select * from t_user where sex = #{sex}
+    </select>
+
+    <select id="getUserCount" resultType="_integer">
+        select count(*) from t_user
+    </select>
+
+    <select id="getUsersByAge" resultType="map">
+        select * from t_user where age = #{age}
+    </select>
+
+    <select id="getAllUsersMap" resultType="map">
+        select * from t_user
+    </select>
+
+    <select id="getUserByLike" resultType="User">
+        select * from t_user where username like '%${username}%'
+    </select>
+
+    <select id="getAllUsersByTable" resultType="User">
+        select * from ${table}
+    </select>
+
+    <insert id="insertUserGetId" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user values (null,#{username},#{password},${age},#{sex})
+    </insert>
+    <!--resultMap-->
+    <resultMap id="UserMap" type="User">
+
+    </resultMap>
+
+
+</mapper>
