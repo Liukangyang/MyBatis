@@ -23,12 +23,16 @@ public class MBGTest extends TestCase{
         SqlSession sqlSession = sqlSessionFactory.openSession(true);
         EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
 
-//       List<Emp> emps = mapper.selectByExample(null);
+//        条件查询
         EmpExample example = new EmpExample();
-        example.createCriteria().andEidGreaterThan(1).andDidBetween(1,2);
+        example.createCriteria().andEidGreaterThan(0).andDidBetween(1,3);
         //example.or().andEmpNameIsNotNull();
         List<Emp> emps = mapper.selectByExample(example);
         emps.forEach(emp-> System.out.println(emp));
+
+//        条件修改
+//        mapper.updateByPrimaryKey(new Emp(1,"LKY",null,2));
+//        mapper.updateByPrimaryKeySelective(new Emp(1,null,null,3));
 
     }
 }
