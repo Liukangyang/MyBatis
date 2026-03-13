@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.DeptMapper">
+
+
+
+    <insert id="insertDeptInfo">
+        insert into dept values (${did},#{dept_name});
+    </insert>
+
+    <!--resultMap-->
+    <resultMap id="DeptMap" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+    </resultMap>
+
+    <select id="getDeptByDid" resultMap="DeptMap">
+        select * from dept where did = ${did}
+    </select>
+
+
+    <resultMap id="DeptMap2" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <collection property="emps" ofType="Emp">
+            <id property="eid" column="eid"></id>
+            <result property="name" column="emp_name"></result>
+            <result property="telecom" column="emp_telecom"></result>
+            <result property="did" column="did"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getDeptAndEmps" resultMap="DeptMap2">
+        select * from dept left join emp on dept.did = emp.did where dept.did = ${did}
+    </select>
+
+    <resultMap id="DeptMap3" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <collection property="emps"
+                    select="org.example.mapper.EmpMapper.getEmpsByDid"
+                    column="did">
+        </collection>
+    </resultMap>
+
+    <select id="getDeptAndEmpsByStepTwo" resultMap="DeptMap3">
+        select * from dept where did=${did}
+    </select>
+
+</mapper>

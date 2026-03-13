@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.EmpMapper">
+
+    <!--resultMap-->
+    <resultMap id="EmpMap" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="name" column="emp_name"></result>
+        <result property="telecom" column="emp_telecom"></result>
+        <result property="did" column="did"></result>
+    </resultMap>
+
+    <resultMap id="EmpMap2" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="name" column="emp_name"></result>
+        <result property="telecom" column="emp_telecom"></result>
+        <result property="dept.did" column="did"></result>
+        <result property="dept.deptName" column="dept_name"></result>
+
+    </resultMap>
+
+
+    <resultMap id="EmpMap3" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="name" column="emp_name"></result>
+        <result property="telecom" column="emp_telecom"></result>
+        <result property="did" column="did"></result>
+        <association property="dept" javaType="Dept">
+            <id property="did" column="did"></id>
+            <result property="deptName" column="dept_name"></result>
+        </association>
+
+    </resultMap>
+
+    <resultMap id="EmpMap4" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="name" column="emp_name"></result>
+        <result property="telecom" column="emp_telecom"></result>
+        <result property="did" column="did"></result>
+        <association property="dept"
+                     select="org.example.mapper.DeptMapper.getDeptByDid"
+                     column="did"></association>
+
+    </resultMap>
+
+
+
+    <insert id="insertEmpInfo">
+        insert into emp values (${eid},#{emp_name},#{emp_telecom},${did});
+    </insert>
+<!--方法1：级联赋值
+    <select id="getEmpByEid" resultMap="EmpMap2">
+        select * from emp left join dept on emp.did = dept.did where emp.eid = ${eid}
+    </select>
+    -->
+
+
+    <!--方法2：association
+    <select id="getEmpByEid" resultMap="EmpMap3">
+        select * from emp left join dept on emp.did = dept.did where emp.eid = #{eid}
+    </select>
+    -->
+
+    <sql id="empColumns"> eid,emp_name,emp_telecom,did</sql>
+
+    <!--分步查询-->
+    <select id="getEmpByEid" resultMap="EmpMap4">
+        select <include refid="empColumns"></include> from emp  where emp.eid = #{eid}
+    </select>
+
+<!--    sql标签-->
+    <select id="getEmpsByDid" resultMap="EmpMap">
+       select * from emp where did = ${did}
+    </select>
+
+
+
+
+
+</mapper>

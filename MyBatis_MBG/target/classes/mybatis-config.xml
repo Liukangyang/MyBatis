@@ -3,18 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <!--属性配置文件-->
     <properties resource="jdbc.properties"/>
-
-<!--    全局配置-->
-    <settings>
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
-    </settings>
     <!--类型别名-->
-    <typeAliases>
-      <!--<typeAlias type="org.example.User" alias="User"/>-->
-        <package name="org.example"/>
 
+    <typeAliases>
+        <package name="org.example"/>
     </typeAliases>
 
     <!--设置连接数据库的环境-->
@@ -30,15 +25,10 @@
             </dataSource>
         </environment>
     </environments>
+
+
     <!--引入映射文件-->
     <mappers>
-        <!--<mapper resource="mappers/UserMapper.xml"/>-->
-        <!--
-        以包为单位，将包下所有的映射文件引入核心配置文件
-        注意：
-			1. 此方式必须保证mapper接口和mapper映射文件必须在相同的包下
-			2. mapper接口要和mapper映射文件的名字一致
-        -->
         <package name="org.example.mapper"/>
     </mappers>
 </configuration>
